@@ -11,7 +11,6 @@ This is a Django-based REST API project that implements user authentication and 
 2. **Login:** Obtain JWT `access` and `refresh` tokens for authentication.
 3. **Logout:** Blacklist tokens for secure logout.
 4. **Role-Based Access:** Restrict endpoints based on user roles.
-5. **CRUD for Articles:** Authorized users can create, update, view, and delete articles.
 
 ---
 
@@ -33,8 +32,28 @@ This is a Django-based REST API project that implements user authentication and 
 ### Steps to Run the Project
 1. Clone the repository:
    ```bash
-   git clone <repository_url>
-   cd <repository_folder>
+   git clone <https://github.com/AdityaBhandari23/VRVINTERNSHIP_TASK.git>
+   cd VRVINTERNSHIP_TASK
+
+### Create a virtual environment:
+```
+python -m venv venv
+source venv/bin/activate    # For Linux/Mac
+venv\Scripts\activate       # For Windows
+```
+
+### Install dependencies:
+pip install -r requirements.txt
+
+### Apply migrations:
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+### Start the server:
+```
+python manage.py runserver
+```  
 
 # Django JWT Authentication API
 
@@ -46,12 +65,13 @@ This project provides a REST API with role-based authentication using **Django R
 - **Endpoint:** `/api/auth/register/`
 - **Method:** `POST`
 - **Payload:**
+- **Role options:** "director", "hod", "student"
 ```json
 {
     "username": "john_doe",
     "email": "john@example.com",
     "password": "strong_password",
-    "role": "student"   Options: "director", "hod", "student"
+    "role": "student"   
 }
 ```
 Response:
