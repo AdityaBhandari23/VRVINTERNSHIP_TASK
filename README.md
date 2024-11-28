@@ -35,3 +35,135 @@ This is a Django-based REST API project that implements user authentication and 
    ```bash
    git clone <repository_url>
    cd <repository_folder>
+
+# Django JWT Authentication API
+
+This project provides a REST API with role-based authentication using **Django REST Framework** and **JWT (JSON Web Tokens)**. The API allows users to register, login, access the dashboard, and perform article management based on their roles.
+
+## API Endpoints
+
+### 1. User Registration
+- **Endpoint:** `/api/auth/register/`
+- **Method:** `POST`
+- **Payload:**
+```json
+{
+    "username": "john_doe",
+    "email": "john@example.com",
+    "password": "strong_password",
+    "role": "student"   Options: "director", "hod", "student"
+}
+```
+Response:
+```
+json
+
+{
+    "id": 1,
+    "username": "john_doe",
+    "email": "john@example.com",
+    "role": "student"
+}
+```
+### 2. User Login
+Endpoint: /api/auth/login/
+Method: POST
+Payload:
+```
+{
+    "username": "john_doe",
+    "password": "strong_password"
+}
+```
+Response:
+json
+```
+{
+    "refresh": "<refresh_token>",
+    "access": "<access_token>",
+    "user": {
+        "id": 1,
+        "username": "john_doe",
+        "email": "john@example.com",
+        "role": "student"
+    }
+}
+```
+### 3. Logout
+Endpoint: /api/auth/logout/
+Method: POST
+Headers:
+Authorization: Bearer <access_token>
+Payload:
+json
+```
+{
+    "refresh": "<refresh_token>"
+}
+```
+Response:
+json
+```
+{
+    "message": "Logged out successfully."
+}
+```
+### 4. Access Dashboard
+Endpoint: /api/dashboard/
+Method: GET
+Headers:
+Authorization: Bearer <access_token>
+Response for Role student:
+json
+```
+{
+    "message": "Welcome to the dashboard!",
+    "user": "john_doe"
+}
+```
+Response if Unauthorized:
+json
+```
+{
+    "detail": "You do not have permission to perform this action."
+}
+```
+### 5. Articles (HOD Access Only)
+List/Create Articles
+Endpoint: /api/articles/
+Method: GET (List), POST (Create)
+
+Authorization: Bearer <access_token>
+Payload (for POST):
+json
+```
+{
+    "title": "New Article",
+    "content": "This is the content of the article."
+}
+```
+
+Retrieve/Update/Delete Article
+Endpoint: /api/articles/<id>/
+Method: GET, PUT, DELETE
+
+### Role-Based Permissions
+**Director:** Full access to all resources.
+
+**HOD:** Can manage articles and access the dashboard.
+
+**Student:** Can only access the dashboard.
+
+## Testing with Postman
+Import the API collection in Postman.
+Perform POST requests for registration and login.
+Use the provided access_token to access protected routes (set in the Authorization header).
+Test logout with the refresh_token.
+## Troubleshooting
+Invalid Token:
+Ensure tokens are not expired.
+Check if the token has been blacklisted.
+# Permission Denied:
+Confirm the user role matches the endpoint's required permissions.
+
+   
